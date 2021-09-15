@@ -11,10 +11,6 @@ const emailApi = (app) => {
     router.post('/send', async(req, res) => {
         const { body: email } = req;
         try {
-            console.log(email.from);
-            console.log(config.useremail);
-            console.log(email.subject);
-            console.log(email.msj);
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -24,10 +20,11 @@ const emailApi = (app) => {
             });
 
             const mailOptions = {
-                from: email.from,
-                to: config.useremail,
+                from: config.useremail,
+                to: 'stalin.dany98@gmail.com',
                 subject: email.subject,
-                text: email.msj
+                text: email.msj,
+                html: `<b style="font-size:30px; text-align: center; color:#1f8af4;"><span style="color:#4ce0a7;">${email.name}</span> quiere contactarse contigo</b><br> <p style="font-size:20px; color:#000">Debes contactarte al siguiente correo: ${email.from}</p><p style="font-size:20px; color:#000">Mensaje: ${email.msj}</p>`,
             };
             transporter.sendMail(mailOptions, function(error, info) {
                 if (error) {
